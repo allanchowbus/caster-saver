@@ -159,13 +159,6 @@ var affine = {
         ret = affine.world.rotate.y(ret, rotate);
         ret = affine.world.rotate.z(ret, rotate);
         ret = affine.world.position(ret, position);
-        ret = affine.view.point(ret);
-        ret = affine.view.x(ret);
-        ret = affine.view.y(ret);
-        ret = affine.view.viewReset(ret);
-        ret = affine.view.righthandedReversal(ret);
-        ret = affine.perspective(ret);
-        ret = affine.display(ret, display);
         return ret;
     }
 };
@@ -351,11 +344,8 @@ sphere.prototype = {
             };
             this.degree[i].theta =this.degree[i].theta + (this.charsMap[this.type][i].theta-this.degree[i].theta)/(4+20*Math.random());
             this.degree[i].phi = this.degree[i].phi + (this.charsMap[this.type][i].phi-this.degree[i].phi)/(4+20*Math.random());
-            if(vibrateFlag == true) {
-                var getPosition = polarToRectangle(this.degree[i].theta+90, this.degree[i].phi, this.radius+Math.random()*10);
-            } else {
-                var getPosition = polarToRectangle(this.degree[i].theta+90, this.degree[i].phi, this.radius);
-            };
+
+            var getPosition = polarToRectangle(this.degree[i].theta+90, this.degree[i].phi, this.radius);
             this.veticies[i].affineIn.vertex = {
                 x:getPosition.x,
                 y:getPosition.y,
@@ -403,7 +393,7 @@ var s = new Array();
 /*-----------------------------------------------------*/
 var setup = function() {
     for(var i=0; i<sphereNum; i++) {
-        s[i] = new sphere({radius:100, particleNum:250, center:{x:70*i - (sphereNum-1)*70/2,y:0,z:0}});
+        s[i] = new sphere({radius:100, particleNum:125, center:{x:70*i - (sphereNum-1)*70/2,y:0,z:0}});
     };
 };
 /*-----------------------------------------------------*/
@@ -530,18 +520,9 @@ var fullSet = function() {
     };
 };
 var textSet = [
-    {text:"WEBSPHERE", sphereRadius:140, sphereSpace:80, unitTime:100, time:1000},
-    {text:"THIS_IS", sphereRadius:120, sphereSpace:70, unitTime:120, time:4000},
-    {text:"EXPERIMENTAL", sphereRadius:120, sphereSpace:70, unitTime:50, time:2000},
-    {text:"TYPEFACE", sphereRadius:120, sphereSpace:70, unitTime:100, time:4000},
-    {text:"BASED_ON", sphereRadius:100, sphereSpace:60, unitTime:100, time:3000},
-    {text:"HELVETICA", sphereRadius:140, sphereSpace:80, unitTime:100, time:2000},
-    {text:"@@@@@@@@", sphereRadius:60 + Math.random()*60, sphereSpace:200, unitTime:100, time:4000},
-    {text:"MOVABLE", sphereRadius:120, sphereSpace:70, unitTime:100, time:2000},
-    {text:"AND", sphereRadius:100, sphereSpace:60, unitTime:150, time:3500},
-    {text:"PROGRAMABLE", sphereRadius:120, sphereSpace:70, unitTime:50, time:2000},
-    {text:"!!!!!!!", sphereRadius:100, sphereSpace:60, unitTime:100, time:3500},
-    {text:"HACK_ME!", sphereRadius:140, sphereSpace:80, unitTime:100, time:2500},
+    {text:"HELLO", sphereRadius:140, sphereSpace:80, unitTime:100, time:1000},
+    {text:"TYPE_SOMETHING", sphereRadius:120, sphereSpace:70, unitTime:120, time:4000},
+    {text:"PRESS_ENTER", sphereRadius:120, sphereSpace:70, unitTime:50, time:2000},
     {text:"@@@@@@@@", sphereRadius:60 + Math.random()*60, sphereSpace:200, unitTime:100, time:4000}
 ];
 
@@ -567,18 +548,6 @@ var invertCV = new closeValue(1000, 1200);
 var start = function() {
     setup();
     setInterval(function() {
-        if(vibrateCV.execution() > 0.8) {
-            vibrateFlag = true;
-        } else {
-            vibrateFlag = false;
-        };
-        if(invertCV.execution() > 0.7) {
-            strokeColor = "rgba(0,0,0,0.1)";
-            backgroundColor = "rgba(255,255,255,1)";
-        } else {
-            strokeColor = "rgba(255,255,255,0.1)";
-            backgroundColor = "rgba(0,0,0,1)";
-        };
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.fillStyle = backgroundColor;
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
